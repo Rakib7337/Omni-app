@@ -1,8 +1,12 @@
 import { useState } from 'react';
 import { Check, Smartphone } from 'lucide-react';
-import { AppFeatureShowcase, FRONTEND_FEATURES } from '../data/omniData';
+import type { AppFeatureShowcase, LocalizedContent } from '../data/omniData';
 
 type FilterTab = 'all' | AppFeatureShowcase['id'];
+
+interface FrontendFeaturesSectionProps {
+  copy: LocalizedContent['featuresSection'];
+}
 
 function ScreenshotPhoneFrame({
   imageSrc,
@@ -71,13 +75,11 @@ function ScreenshotPhoneFrame({
   );
 }
 
-export function FrontendFeaturesSection() {
+export function FrontendFeaturesSection({ copy }: FrontendFeaturesSectionProps) {
   const [activeTab, setActiveTab] = useState<FilterTab>('all');
 
   const visibleFeatures =
-    activeTab === 'all'
-      ? FRONTEND_FEATURES
-      : FRONTEND_FEATURES.filter((item) => item.id === activeTab);
+    activeTab === 'all' ? copy.items : copy.items.filter((item) => item.id === activeTab);
 
   return (
     <section
@@ -88,24 +90,23 @@ export function FrontendFeaturesSection() {
         <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-end" data-aos="fade-up">
           <div className="max-w-xl">
             <p className="bg-gradient-to-r from-[#0288D1] to-[#06B6D4] bg-clip-text text-xs font-semibold tracking-wide text-transparent">
-              Inside OmniDownloader
+              {copy.kicker}
             </p>
             <h2
               className="mt-2 font-display text-2xl font-bold tracking-tight text-[#0F172A] sm:text-4xl dark:text-[#F8FAFC]"
               style={{ textWrap: 'balance' }}
             >
-              Four everyday tools built into one clean Android app.
+              {copy.heading}
             </h2>
             <p className="mt-3 text-base leading-relaxed text-slate-600 dark:text-slate-300">
-              See the actual app screens you use every day — from pasting a link and picking formats
-              to watching ad-free feeds and organizing your offline library.
+              {copy.subtitle}
             </p>
           </div>
 
           {/* Interactive Screen Filter Segmented Bar */}
           <div
             role="tablist"
-            aria-label="Filter app screens"
+            aria-label={copy.filterAria}
             className="glass-card-subtle inline-flex shrink-0 flex-wrap items-center gap-1 rounded-xl border p-1 lg:flex-nowrap"
           >
             <button
@@ -119,9 +120,9 @@ export function FrontendFeaturesSection() {
                   : 'text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white'
               }`}
             >
-              All Screens
+              {copy.allScreensLabel}
             </button>
-            {FRONTEND_FEATURES.map((item) => {
+            {copy.items.map((item) => {
               const selected = activeTab === item.id;
               return (
                 <button

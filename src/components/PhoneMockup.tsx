@@ -1,4 +1,8 @@
-export function PhoneMockup() {
+interface PhoneMockupProps {
+  primaryImgAlt: string;
+}
+
+export function PhoneMockup({ primaryImgAlt }: PhoneMockupProps) {
   return (
     <div className="relative mx-auto flex w-full max-w-[360px] items-center justify-center py-4 sm:max-w-[450px] lg:py-2">
       {/* Secondary Tilted Companion Phone (Ad-Free Video Feeds Screenshot) */}
@@ -45,7 +49,7 @@ export function PhoneMockup() {
             <div className="relative aspect-[9/20] overflow-hidden rounded-[31px] bg-slate-100 sm:rounded-[34px] dark:bg-slate-900">
               <img
                 src={`${import.meta.env.BASE_URL}assets/aistudio/Screenshot_20261125-093746_81ca962f.png`}
-                alt="OmniDownloader Android app home screen with link paste card and supported platforms"
+                alt={primaryImgAlt}
                 referrerPolicy="no-referrer"
                 className="h-full w-full object-cover object-top"
               />

@@ -1,11 +1,14 @@
 import { ArrowRight } from 'lucide-react';
-import { APK_RELEASE, NAV_ITEMS } from '../data/omniData';
+import type { ApkReleaseInfo, LocalizedContent, NavItem } from '../data/omniData';
 
 interface FooterProps {
+  navItems: NavItem[];
+  copy: LocalizedContent['footer'];
+  release: ApkReleaseInfo;
   onNavigate: (sectionId: string) => void;
 }
 
-export function Footer({ onNavigate }: FooterProps) {
+export function Footer({ navItems, copy, release, onNavigate }: FooterProps) {
   const currentYear = new Date().getFullYear();
 
   return (
@@ -21,20 +24,17 @@ export function Footer({ onNavigate }: FooterProps) {
               className="font-display text-2xl font-bold tracking-tight text-[#0F172A] sm:text-4xl dark:text-white"
               style={{ textWrap: 'balance' }}
             >
-              Take Control of Your Media on Android.
+              {copy.ctaHeading}
             </h2>
-            <p className="mt-2 text-base text-slate-600 dark:text-slate-300">
-              One simple app for 4K downloads, ad-free video feeds, clean browsing, and quick clip
-              editing.
-            </p>
+            <p className="mt-2 text-base text-slate-600 dark:text-slate-300">{copy.ctaSubtitle}</p>
           </div>
           <a
-            href={APK_RELEASE.downloadUrl}
-            download={APK_RELEASE.filename}
+            href={release.downloadUrl}
+            download={release.filename}
             rel="noopener noreferrer"
             className="soft-gradient-cta inline-flex shrink-0 items-center gap-2 whitespace-nowrap rounded-xl px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-[#0288D1]/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#06B6D4]"
           >
-            Download OmniDownloader
+            {copy.ctaButton}
             <ArrowRight className="h-4 w-4" />
           </a>
         </div>
@@ -48,7 +48,7 @@ export function Footer({ onNavigate }: FooterProps) {
               OmniDownloader
             </p>
             <p className="mt-1 font-mono text-xs text-slate-500 dark:text-slate-400">
-              Built for Android by Rakib Hasan —{' '}
+              {copy.builtByPrefix}{' '}
               <a
                 href="mailto:rhpro111@gmail.com"
                 className="text-[#0288D1] hover:underline dark:text-[#06B6D4]"
@@ -58,8 +58,8 @@ export function Footer({ onNavigate }: FooterProps) {
             </p>
           </div>
 
-          <nav aria-label="Footer navigation" className="flex flex-wrap gap-x-6 gap-y-2">
-            {NAV_ITEMS.map((item) => (
+          <nav aria-label={copy.footerNavAria} className="flex flex-wrap gap-x-6 gap-y-2">
+            {navItems.map((item) => (
               <a
                 key={item.id}
                 href={item.href}
@@ -76,11 +76,10 @@ export function Footer({ onNavigate }: FooterProps) {
         </div>
 
         <div className="mt-6 flex flex-col justify-between gap-3 text-xs text-slate-500 sm:flex-row sm:items-center dark:text-slate-400">
-          <p>© {currentYear} OmniDownloader · Rakib Hasan. All rights reserved.</p>
-          <p className="max-w-xl sm:text-right">
-            Intended strictly for responsible personal and authorized offline media use. Respect
-            content creators and applicable platform terms.
+          <p>
+            © {currentYear} {copy.copyrightSuffix}
           </p>
+          <p className="max-w-xl sm:text-right">{copy.disclaimer}</p>
         </div>
       </div>
     </footer>

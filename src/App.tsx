@@ -10,17 +10,36 @@ import { HeroSection } from './components/HeroSection';
 import { Navbar } from './components/Navbar';
 import { ProblemSolutionSection } from './components/ProblemSolutionSection';
 import { ScrollToTopFab } from './components/ScrollToTopFab';
-import { NAV_ITEMS } from './data/omniData';
-import { resolveActiveSection } from './utils/validation';
+import { getLocalizedContent } from './data/omniData';
+import {
+  AppLanguage,
+  AppTheme,
+  resolveActiveSection,
+  resolveInitialLanguage,
+  resolveInitialTheme,
+} from './utils/validation';
 
 export default function App() {
-  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
-    if (typeof document !== 'undefined') {
-      return document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+  const [theme, setTheme] = useState<AppTheme>(() => {
+    try {
+      const saved = typeof window !== 'undefined' ? localStorage.getItem('omni-theme') : null;
+      return resolveInitialTheme(saved);
+    } catch {
+      return 'light';
     }
-    return 'dark';
   });
+
+  const [lang, setLang] = useState<AppLanguage>(() => {
+    try {
+      const saved = typeof window !== 'undefined' ? localStorage.getItem('omni-lang') : null;
+      return resolveInitialLanguage(saved);
+    } catch {
+      return 'bn';
+    }
+  });
+
   const [activeSection, setActiveSection] = useState<string>('features');
+  const content = getLocalizedContent(lang);
 
   useEffect(() => {
     AOS.init({
@@ -47,14 +66,26 @@ export default function App() {
   }, [theme]);
 
   useEffect(() => {
+    document.documentElement.lang = lang;
+    document.title = content.pageTitle;
+    try {
+      localStorage.setItem('omni-lang', lang);
+    } catch {
+      // Ignore storage errors in restricted sandboxes
+    }
+  }, [lang, content.pageTitle]);
+
+  useEffect(() => {
     const handleScroll = () => {
-      const positions = NAV_ITEMS.map((item) => {
-        const el = document.getElementById(item.id);
-        return {
-          id: item.id,
-          top: el ? el.getBoundingClientRect().top + window.scrollY : Number.POSITIVE_INFINITY,
-        };
-      }).filter((item) => Number.isFinite(item.top));
+      const positions = content.navItems
+        .map((item) => {
+          const el = document.getElementById(item.id);
+          return {
+            id: item.id,
+            top: el ? el.getBoundingClientRect().top + window.scrollY : Number.POSITIVE_INFINITY,
+          };
+        })
+        .filter((item) => Number.isFinite(item.top));
 
       const nextActive = resolveActiveSection(positions, window.scrollY, 180);
       if (nextActive) {
@@ -65,7 +96,7 @@ export default function App() {
     handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [content.navItems]);
 
   const handleNavigate = (sectionId: string) => {
     const target = document.getElementById(sectionId);
@@ -84,23 +115,38 @@ export default function App() {
       </div>
 
       <div className="relative z-10">
-        <Navbar activeSection={activeSection} onNavigate={handleNavigate} />
+        <Navbar
+          activeSection={activeSection}
+          navItems={content.navItems}
+          copy={content.navbar}
+          release={content.downloadSection.release}
+          onNavigate={handleNavigate}
+        />
 
         <main>
           <HeroSection
             theme={theme}
             onToggleTheme={setTheme}
+            lang={lang}
+            onChangeLang={setLang}
+            copy={content.hero}
+            release={content.downloadSection.release}
             onNavigate={handleNavigate}
           />
-          <FrontendFeaturesSection />
-          <ProblemSolutionSection />
-          <ComparisonSection />
-          <DownloadReleaseSection />
-          <DeveloperFaqSection />
+          <FrontendFeaturesSection copy={content.featuresSection} />
+          <ProblemSolutionSection copy={content.whySwitchSection} />
+          <ComparisonSection copy={content.comparisonSection} />
+          <DownloadReleaseSection copy={content.downloadSection} />
+          <DeveloperFaqSection lang={lang} copy={content.faqAndCreatorSection} />
         </main>
 
-        <Footer onNavigate={handleNavigate} />
-        <ScrollToTopFab />
+        <Footer
+          navItems={content.navItems}
+          copy={content.footer}
+          release={content.downloadSection.release}
+          onNavigate={handleNavigate}
+        />
+        <ScrollToTopFab label={content.footer.scrollToTopLabel} />
       </div>
     </div>
   );

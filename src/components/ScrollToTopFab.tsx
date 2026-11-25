@@ -2,7 +2,11 @@ import { useEffect, useState } from 'react';
 import { ArrowUp } from 'lucide-react';
 import { shouldShowScrollTop } from '../utils/validation';
 
-export function ScrollToTopFab() {
+interface ScrollToTopFabProps {
+  label: string;
+}
+
+export function ScrollToTopFab({ label }: ScrollToTopFabProps) {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -29,8 +33,8 @@ export function ScrollToTopFab() {
     <button
       type="button"
       onClick={handleScrollToTop}
-      aria-label="Scroll to top"
-      title="Scroll to top"
+      aria-label={label}
+      title={label}
       aria-hidden={!visible}
       tabIndex={visible ? 0 : -1}
       className={`glass-surface fixed right-5 bottom-5 z-40 inline-flex h-12 w-12 items-center justify-center rounded-2xl border text-[#0288D1] transition-all duration-200 hover:-translate-y-0.5 hover:border-[#06B6D4]/60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#06B6D4] sm:right-7 sm:bottom-7 dark:text-[#06B6D4] ${

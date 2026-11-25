@@ -1,3 +1,6 @@
+export type AppLanguage = 'bn' | 'en';
+export type AppTheme = 'light' | 'dark';
+
 export interface ContactFormValues {
   name: string;
   email: string;
@@ -19,33 +22,68 @@ export interface ContactValidationResult {
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
-export function validateContactForm(values: ContactFormValues): ContactValidationResult {
+export function resolveInitialTheme(savedValue: string | null | undefined): AppTheme {
+  return savedValue === 'dark' ? 'dark' : 'light';
+}
+
+export function resolveInitialLanguage(savedValue: string | null | undefined): AppLanguage {
+  return savedValue === 'en' ? 'en' : 'bn';
+}
+
+export function validateContactForm(
+  values: ContactFormValues,
+  lang: AppLanguage = 'en'
+): ContactValidationResult {
   const errors: ContactFormErrors = {};
   const name = values.name.trim();
   const email = values.email.trim();
   const topic = values.topic.trim();
   const message = values.message.trim();
 
-  if (name.length < 2) {
-    errors.name = 'Enter your name (at least 2 characters).';
-  } else if (name.length > 80) {
-    errors.name = 'Name must be 80 characters or fewer.';
-  }
+  if (lang === 'bn') {
+    if (name.length < 2) {
+      errors.name = 'আপনার নাম লিখুন (কমপক্ষে ২ অক্ষর)।';
+    } else if (name.length > 80) {
+      errors.name = 'নাম ৮০ অক্ষরের মধ্যে হতে হবে।';
+    }
 
-  if (!email) {
-    errors.email = 'Enter an email address so Rakib can reply.';
-  } else if (!EMAIL_PATTERN.test(email)) {
-    errors.email = 'Enter a valid email address (e.g. alex@domain.com).';
-  }
+    if (!email) {
+      errors.email = 'রাকিব উত্তর দেওয়ার জন্য একটি ইমেইল ঠিকানা লিখুন।';
+    } else if (!EMAIL_PATTERN.test(email)) {
+      errors.email = 'সঠিক ইমেইল ঠিকানা লিখুন (যেমন: alex@domain.com)।';
+    }
 
-  if (!topic) {
-    errors.topic = 'Select a message topic.';
-  }
+    if (!topic) {
+      errors.topic = 'একটি বিষয় নির্বাচন করুন।';
+    }
 
-  if (message.length < 15) {
-    errors.message = 'Provide at least 15 characters describing your request or feedback.';
-  } else if (message.length > 1500) {
-    errors.message = 'Message must be 1,500 characters or fewer.';
+    if (message.length < 15) {
+      errors.message = 'আপনার অনুরোধ বা মতামত কমপক্ষে ১৫ অক্ষরে লিখুন।';
+    } else if (message.length > 1500) {
+      errors.message = 'বার্তা ১,৫০০ অক্ষরের মধ্যে হতে হবে।';
+    }
+  } else {
+    if (name.length < 2) {
+      errors.name = 'Enter your name (at least 2 characters).';
+    } else if (name.length > 80) {
+      errors.name = 'Name must be 80 characters or fewer.';
+    }
+
+    if (!email) {
+      errors.email = 'Enter an email address so Rakib can reply.';
+    } else if (!EMAIL_PATTERN.test(email)) {
+      errors.email = 'Enter a valid email address (e.g. alex@domain.com).';
+    }
+
+    if (!topic) {
+      errors.topic = 'Select a message topic.';
+    }
+
+    if (message.length < 15) {
+      errors.message = 'Provide at least 15 characters describing your request or feedback.';
+    } else if (message.length > 1500) {
+      errors.message = 'Message must be 1,500 characters or fewer.';
+    }
   }
 
   return {

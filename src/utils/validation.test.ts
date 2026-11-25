@@ -1,29 +1,71 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { validateContactForm, resolveActiveSection, shouldShowScrollTop } from './validation';
+import {
+  resolveActiveSection,
+  resolveInitialLanguage,
+  resolveInitialTheme,
+  shouldShowScrollTop,
+  validateContactForm,
+} from './validation';
 
-test('validateContactForm rejects empty and malformed inputs', () => {
-  const result = validateContactForm({
-    name: 'A',
-    email: 'invalid-email',
-    topic: '',
-    message: 'Too short',
-  });
+test('resolveInitialTheme defaults to light and respects dark override', () => {
+  assert.equal(resolveInitialTheme(null), 'light');
+  assert.equal(resolveInitialTheme(undefined), 'light');
+  assert.equal(resolveInitialTheme('light'), 'light');
+  assert.equal(resolveInitialTheme('dark'), 'dark');
+});
 
-  assert.equal(result.valid, false);
-  assert.ok(result.errors.name);
-  assert.ok(result.errors.email);
-  assert.ok(result.errors.topic);
-  assert.ok(result.errors.message);
+test('resolveInitialLanguage defaults to bn and respects en override', () => {
+  assert.equal(resolveInitialLanguage(null), 'bn');
+  assert.equal(resolveInitialLanguage(undefined), 'bn');
+  assert.equal(resolveInitialLanguage('bn'), 'bn');
+  assert.equal(resolveInitialLanguage('en'), 'en');
+});
+
+test('validateContactForm rejects empty and malformed inputs in both en and bn', () => {
+  const enResult = validateContactForm(
+    {
+      name: 'A',
+      email: 'invalid-email',
+      topic: '',
+      message: 'Too short',
+    },
+    'en'
+  );
+
+  assert.equal(enResult.valid, false);
+  assert.ok(enResult.errors.name);
+  assert.ok(enResult.errors.email);
+  assert.ok(enResult.errors.topic);
+  assert.ok(enResult.errors.message);
+
+  const bnResult = validateContactForm(
+    {
+      name: 'ক',
+      email: 'bad',
+      topic: '',
+      message: 'ছোট',
+    },
+    'bn'
+  );
+
+  assert.equal(bnResult.valid, false);
+  assert.match(bnResult.errors.name ?? '', /নাম/);
+  assert.match(bnResult.errors.email ?? '', /ইমেইল/);
+  assert.match(bnResult.errors.topic ?? '', /বিষয়/);
+  assert.match(bnResult.errors.message ?? '', /বার্তা|১৫/);
 });
 
 test('validateContactForm accepts valid contact submission', () => {
-  const result = validateContactForm({
-    name: 'Samira Chen',
-    email: 'samira.chen@example.org',
-    topic: 'Bug Report / Device Compatibility',
-    message: 'Testing HLS muxing on Pixel 8 Android 15 works great with preserved cookies.',
-  });
+  const result = validateContactForm(
+    {
+      name: 'Samira Chen',
+      email: 'samira.chen@example.org',
+      topic: 'Feature Request / Feedback',
+      message: 'Testing HLS muxing on Pixel 8 Android 15 works great with preserved cookies.',
+    },
+    'bn'
+  );
 
   assert.equal(result.valid, true);
   assert.deepEqual(result.errors, {});

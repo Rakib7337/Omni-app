@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="en" class="dark scroll-smooth">
+<html lang="bn" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>OmniDownloader — Ad-Free Android Video Downloader, Feeds &amp; Media App</title>
+    <title>OmniDownloader — বিজ্ঞাপন-মুক্ত অ্যান্ড্রয়েড ভিডিও ডাউনলোডার, ফিড ও মিডিয়া অ্যাপ</title>
     <meta
       name="description"
-      content="Save 4K videos, MP3 music, and playlists from 1,000+ sites, watch videos ad-free, browse without pop-ups, and trim or convert clips right on your Android phone."
+      content="১,০০০+ সাইট থেকে 4K ভিডিও, MP3 মিউজিক ও প্লেলিস্ট সেভ করুন, বিজ্ঞাপন ছাড়া ভিডিও দেখুন, পপ-আপ ছাড়াই ব্রাউজ করুন এবং ফোনেই ক্লিপ ট্রিম বা কনভার্ট করুন।"
     />
     <meta property="og:title" content="OmniDownloader — Ad-Free Android Video Downloader, Feeds & Media App" />
     <meta
@@ -18,18 +18,20 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Hind+Siliguri:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+Bengali:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <script>
       (function () {
         try {
-          var saved = localStorage.getItem('omni-theme');
-          if (saved === 'light') {
-            document.documentElement.classList.remove('dark');
-          } else {
+          var savedTheme = localStorage.getItem('omni-theme');
+          if (savedTheme === 'dark') {
             document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
           }
+          var savedLang = localStorage.getItem('omni-lang');
+          document.documentElement.lang = savedLang === 'en' ? 'en' : 'bn';
         } catch (e) {}
       })();
     </script>

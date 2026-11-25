@@ -1,26 +1,43 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Check, ChevronDown, Copy, Mail, Send } from 'lucide-react';
-import { FAQ_ITEMS } from '../data/omniData';
+import type { LocalizedContent } from '../data/omniData';
 import {
+  AppLanguage,
   ContactFormErrors,
   ContactFormValues,
   validateContactForm,
 } from '../utils/validation';
 
-const INITIAL_FORM: ContactFormValues = {
-  name: '',
-  email: '',
-  topic: 'Feature Request / Feedback',
-  message: '',
-};
+interface DeveloperFaqSectionProps {
+  lang: AppLanguage;
+  copy: LocalizedContent['faqAndCreatorSection'];
+}
 
-export function DeveloperFaqSection() {
-  const [openFaqIds, setOpenFaqIds] = useState<string[]>([FAQ_ITEMS[0].id]);
+export function DeveloperFaqSection({ lang, copy }: DeveloperFaqSectionProps) {
+  const [openFaqIds, setOpenFaqIds] = useState<string[]>([copy.faqs[0].id]);
   const [copiedEmail, setCopiedEmail] = useState(false);
 
-  const [formValues, setFormValues] = useState<ContactFormValues>(INITIAL_FORM);
+  const [formValues, setFormValues] = useState<ContactFormValues>({
+    name: '',
+    email: '',
+    topic: copy.topics[0],
+    message: '',
+  });
   const [errors, setErrors] = useState<ContactFormErrors>({});
   const [submittedRecord, setSubmittedRecord] = useState<ContactFormValues | null>(null);
+
+  useEffect(() => {
+    setFormValues((prev) => ({
+      ...prev,
+      topic: copy.topics[0],
+    }));
+    setErrors((prev) => {
+      if (Object.keys(prev).length === 0) return prev;
+      return validateContactForm({ ...formValues, topic: copy.topics[0] }, lang).errors;
+    });
+    // Only sync default topic & re-translate active errors when language changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lang]);
 
   const toggleFaq = (id: string) => {
     setOpenFaqIds((prev) =>
@@ -38,10 +55,7 @@ export function DeveloperFaqSection() {
     setTimeout(() => setCopiedEmail(false), 2500);
   };
 
-  const handleChange = (
-    field: keyof ContactFormValues,
-    value: string
-  ) => {
+  const handleChange = (field: keyof ContactFormValues, value: string) => {
     setFormValues((prev) => ({ ...prev, [field]: value }));
     if (errors[field]) {
       setErrors((prev) => ({ ...prev, [field]: undefined }));
@@ -50,14 +64,19 @@ export function DeveloperFaqSection() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const validation = validateContactForm(formValues);
+    const validation = validateContactForm(formValues, lang);
     if (!validation.valid) {
       setErrors(validation.errors);
       return;
     }
     setErrors({});
     setSubmittedRecord({ ...formValues });
-    setFormValues(INITIAL_FORM);
+    setFormValues({
+      name: '',
+      email: '',
+      topic: copy.topics[0],
+      message: '',
+    });
   };
 
   return (
@@ -67,13 +86,13 @@ export function DeveloperFaqSection() {
         <div id="faq" className="scroll-mt-24">
           <div className="max-w-2xl" data-aos="fade-up">
             <p className="bg-gradient-to-r from-[#0288D1] to-[#06B6D4] bg-clip-text text-xs font-semibold tracking-wide text-transparent">
-              Frequently Asked Questions
+              {copy.faqKicker}
             </p>
             <h2
               className="mt-2 font-display text-2xl font-bold tracking-tight text-[#0F172A] sm:text-4xl dark:text-[#F8FAFC]"
               style={{ textWrap: 'balance' }}
             >
-              Helpful answers on saving, watching ad-free, and editing.
+              {copy.faqHeading}
             </h2>
           </div>
 
@@ -82,7 +101,7 @@ export function DeveloperFaqSection() {
             data-aos-delay="100"
             className="glass-surface mt-8 divide-y divide-slate-200/70 rounded-2xl border dark:divide-white/10"
           >
-            {FAQ_ITEMS.map((item) => {
+            {copy.faqs.map((item) => {
               const isOpen = openFaqIds.includes(item.id);
               return (
                 <div key={item.id}>
@@ -130,20 +149,19 @@ export function DeveloperFaqSection() {
           <div className="flex min-w-0 flex-col justify-between lg:col-span-5">
             <div>
               <p className="bg-gradient-to-r from-[#0288D1] to-[#06B6D4] bg-clip-text text-xs font-semibold tracking-wide text-transparent">
-                App Creator
+                {copy.creatorKicker}
               </p>
               <h2 className="mt-2 font-display text-2xl font-bold tracking-tight text-[#0F172A] sm:text-3xl dark:text-white">
-                Built by Rakib Hasan
+                {copy.creatorHeading}
               </h2>
               <p className="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
-                Independent Android app creator designing clean, fast, ad-free mobile utilities
-                built around smooth playback, effortless saving, and zero subscription clutter.
+                {copy.creatorBio}
               </p>
 
               <div className="mt-6 overflow-hidden rounded-xl border border-slate-200/80 bg-slate-100 dark:border-white/10 dark:bg-slate-900">
                 <img
                   src={`${import.meta.env.BASE_URL}src/assets/images/dev_workspace_mark_1795528291778.jpg`}
-                  alt="Workspace desk of OmniDownloader creator Rakib Hasan"
+                  alt={copy.creatorImgAlt}
                   referrerPolicy="no-referrer"
                   className="aspect-square max-h-60 w-full object-cover"
                 />
@@ -159,12 +177,12 @@ export function DeveloperFaqSection() {
                 {copiedEmail ? (
                   <>
                     <Check className="h-3.5 w-3.5 text-[#0288D1] dark:text-[#06B6D4]" />
-                    <span>Copied rhpro111@gmail.com</span>
+                    <span>{copy.copiedEmailLabel}</span>
                   </>
                 ) : (
                   <>
                     <Copy className="h-3.5 w-3.5" />
-                    <span>Copy rhpro111@gmail.com</span>
+                    <span>{copy.copyEmailLabel}</span>
                   </>
                 )}
               </button>
@@ -174,7 +192,7 @@ export function DeveloperFaqSection() {
                 className="soft-gradient-cta inline-flex shrink-0 items-center gap-2 whitespace-nowrap rounded-lg px-4 py-2.5 text-xs font-semibold text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#06B6D4]"
               >
                 <Mail className="h-3.5 w-3.5" />
-                <span>Email Creator</span>
+                <span>{copy.emailCreatorLabel}</span>
               </a>
             </div>
           </div>
@@ -182,12 +200,9 @@ export function DeveloperFaqSection() {
           {/* Validated Feedback Form */}
           <div className="glass-card-subtle min-w-0 rounded-xl border p-6 lg:col-span-7">
             <h3 className="font-display text-lg font-bold text-[#0F172A] dark:text-white">
-              Send Feedback or Feature Request
+              {copy.formTitle}
             </h3>
-            <p className="mt-1 text-xs text-slate-600 dark:text-slate-400">
-              Share device feedback, request a website or format, or suggest your favorite new UI
-              feature.
-            </p>
+            <p className="mt-1 text-xs text-slate-600 dark:text-slate-400">{copy.formSubtitle}</p>
 
             {submittedRecord ? (
               <div
@@ -195,12 +210,15 @@ export function DeveloperFaqSection() {
                 className="mt-6 rounded-xl border border-[#0288D1]/30 bg-[#0288D1]/10 p-5 dark:border-[#06B6D4]/30 dark:bg-[#06B6D4]/10"
               >
                 <p className="font-display text-base font-semibold text-[#0288D1] dark:text-[#06B6D4]">
-                  Message Ready for Rakib Hasan
+                  {copy.successTitle}
                 </p>
                 <p className="mt-2 text-sm text-slate-700 dark:text-slate-200">
-                  Thanks, {submittedRecord.name}. Your{' '}
-                  <span className="font-medium">{submittedRecord.topic}</span> note has been
-                  validated and prepared for <span className="font-mono">rhpro111@gmail.com</span>.
+                  {copy.successThanksPrefix} {submittedRecord.name}
+                  {lang === 'bn' ? '।' : '.'}{' '}
+                  <span className="font-medium">{submittedRecord.topic}</span>{' '}
+                  {copy.successTopicNoteMiddle}{' '}
+                  <span className="font-mono">rhpro111@gmail.com</span>
+                  {copy.successAddressSuffix ? ` ${copy.successAddressSuffix}` : '.'}
                 </p>
                 <div className="mt-4 flex flex-wrap gap-3">
                   <a
@@ -212,14 +230,14 @@ export function DeveloperFaqSection() {
                     className="inline-flex items-center gap-1.5 rounded-lg bg-[#0288D1] px-4 py-2 text-xs font-semibold text-white hover:bg-[#0277BD]"
                   >
                     <Mail className="h-3.5 w-3.5" />
-                    Open in Mail App
+                    {copy.openMailLabel}
                   </a>
                   <button
                     type="button"
                     onClick={() => setSubmittedRecord(null)}
                     className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
                   >
-                    Send Another Note
+                    {copy.sendAnotherLabel}
                   </button>
                 </div>
               </div>
@@ -231,7 +249,7 @@ export function DeveloperFaqSection() {
                       htmlFor="contact-name"
                       className="block text-xs font-semibold text-slate-700 dark:text-slate-200"
                     >
-                      Your Name
+                      {copy.nameLabel}
                     </label>
                     <input
                       id="contact-name"
@@ -241,7 +259,7 @@ export function DeveloperFaqSection() {
                       onChange={(e) => handleChange('name', e.target.value)}
                       aria-invalid={Boolean(errors.name)}
                       aria-describedby={errors.name ? 'contact-name-error' : undefined}
-                      placeholder="Alex Rivera"
+                      placeholder={copy.namePlaceholder}
                       className="mt-1.5 w-full rounded-lg border border-slate-300 bg-[#F8FAFC] px-3.5 py-2.5 text-sm text-[#0F172A] placeholder:text-slate-400 focus:border-[#0288D1] focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:placeholder:text-slate-500 dark:focus:border-[#06B6D4]"
                     />
                     {errors.name && (
@@ -259,7 +277,7 @@ export function DeveloperFaqSection() {
                       htmlFor="contact-email"
                       className="block text-xs font-semibold text-slate-700 dark:text-slate-200"
                     >
-                      Reply Email
+                      {copy.emailLabel}
                     </label>
                     <input
                       id="contact-email"
@@ -269,7 +287,7 @@ export function DeveloperFaqSection() {
                       onChange={(e) => handleChange('email', e.target.value)}
                       aria-invalid={Boolean(errors.email)}
                       aria-describedby={errors.email ? 'contact-email-error' : undefined}
-                      placeholder="alex@domain.com"
+                      placeholder={copy.emailPlaceholder}
                       className="mt-1.5 w-full rounded-lg border border-slate-300 bg-[#F8FAFC] px-3.5 py-2.5 text-sm text-[#0F172A] placeholder:text-slate-400 focus:border-[#0288D1] focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:placeholder:text-slate-500 dark:focus:border-[#06B6D4]"
                     />
                     {errors.email && (
@@ -288,7 +306,7 @@ export function DeveloperFaqSection() {
                     htmlFor="contact-topic"
                     className="block text-xs font-semibold text-slate-700 dark:text-slate-200"
                   >
-                    Topic
+                    {copy.topicLabel}
                   </label>
                   <select
                     id="contact-topic"
@@ -299,14 +317,11 @@ export function DeveloperFaqSection() {
                     aria-describedby={errors.topic ? 'contact-topic-error' : undefined}
                     className="mt-1.5 w-full rounded-lg border border-slate-300 bg-[#F8FAFC] px-3.5 py-2.5 text-sm text-[#0F172A] focus:border-[#0288D1] focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:border-[#06B6D4]"
                   >
-                    <option value="Feature Request / Feedback">Feature Request / Feedback</option>
-                    <option value="App Bug / Playback Issue">
-                      App Bug / Playback Issue
-                    </option>
-                    <option value="Website Support Request">
-                      Website Support Request
-                    </option>
-                    <option value="General Question">General Question</option>
+                    {copy.topics.map((topicOption) => (
+                      <option key={topicOption} value={topicOption}>
+                        {topicOption}
+                      </option>
+                    ))}
                   </select>
                   {errors.topic && (
                     <p
@@ -323,7 +338,7 @@ export function DeveloperFaqSection() {
                     htmlFor="contact-message"
                     className="block text-xs font-semibold text-slate-700 dark:text-slate-200"
                   >
-                    Message
+                    {copy.messageLabel}
                   </label>
                   <textarea
                     id="contact-message"
@@ -333,7 +348,7 @@ export function DeveloperFaqSection() {
                     onChange={(e) => handleChange('message', e.target.value)}
                     aria-invalid={Boolean(errors.message)}
                     aria-describedby={errors.message ? 'contact-message-error' : undefined}
-                    placeholder="Share your Android version, phone model, or feature idea..."
+                    placeholder={copy.messagePlaceholder}
                     className="mt-1.5 w-full rounded-lg border border-slate-300 bg-[#F8FAFC] px-3.5 py-2.5 text-sm text-[#0F172A] placeholder:text-slate-400 focus:border-[#0288D1] focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:placeholder:text-slate-500 dark:focus:border-[#06B6D4]"
                   />
                   {errors.message && (
@@ -348,14 +363,14 @@ export function DeveloperFaqSection() {
 
                 <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
                   <span className="text-xs text-slate-500 dark:text-slate-400">
-                    Opens ready-to-send draft in your email app
+                    {copy.draftHint}
                   </span>
                   <button
                     type="submit"
                     className="soft-gradient-cta inline-flex shrink-0 items-center gap-2 whitespace-nowrap rounded-xl px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-[#0288D1]/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#06B6D4]"
                   >
                     <Send className="h-4 w-4" />
-                    Send Message
+                    {copy.submitLabel}
                   </button>
                 </div>
               </form>

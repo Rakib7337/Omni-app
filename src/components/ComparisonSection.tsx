@@ -1,7 +1,11 @@
 import { Check, Minus, X } from 'lucide-react';
-import { COMPARISON_ROWS } from '../data/omniData';
+import type { LocalizedContent } from '../data/omniData';
 
-export function ComparisonSection() {
+interface ComparisonSectionProps {
+  copy: LocalizedContent['comparisonSection'];
+}
+
+export function ComparisonSection({ copy }: ComparisonSectionProps) {
   return (
     <section
       id="comparison"
@@ -10,18 +14,15 @@ export function ComparisonSection() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl" data-aos="fade-up">
           <p className="bg-gradient-to-r from-[#0288D1] to-[#06B6D4] bg-clip-text text-xs font-semibold tracking-wide text-transparent">
-            Side-by-Side Comparison
+            {copy.kicker}
           </p>
           <h2
             className="mt-2 font-display text-2xl font-bold tracking-tight text-[#0F172A] sm:text-4xl dark:text-[#F8FAFC]"
             style={{ textWrap: 'balance' }}
           >
-            Downloader Websites &amp; Standard Apps vs. OmniDownloader
+            {copy.heading}
           </h2>
-          <p className="mt-3 text-base text-slate-600 dark:text-slate-300">
-            See how an all-in-one Android media app compares against pop-up websites and cluttered
-            players.
-          </p>
+          <p className="mt-3 text-base text-slate-600 dark:text-slate-300">{copy.subtitle}</p>
         </div>
 
         <div
@@ -33,24 +34,24 @@ export function ComparisonSection() {
             <thead>
               <tr className="border-b border-slate-200/70 bg-slate-100/60 dark:border-white/10 dark:bg-white/5">
                 <th scope="col" className="px-6 py-4 font-display font-semibold text-[#0F172A] dark:text-white">
-                  Everyday Feature
+                  {copy.headers.feature}
                 </th>
                 <th scope="col" className="px-6 py-4 font-display font-semibold text-slate-600 dark:text-slate-300">
-                  Free Websites
+                  {copy.headers.freeSites}
                 </th>
                 <th scope="col" className="px-6 py-4 font-display font-semibold text-slate-600 dark:text-slate-300">
-                  Standard Apps
+                  {copy.headers.standardApps}
                 </th>
                 <th
                   scope="col"
                   className="bg-gradient-to-r from-[#0288D1]/15 to-[#06B6D4]/15 px-6 py-4 font-display font-bold text-[#0288D1] dark:text-[#06B6D4]"
                 >
-                  OmniDownloader
+                  {copy.headers.omni}
                 </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-200/70 dark:divide-white/10">
-              {COMPARISON_ROWS.map((row) => (
+              {copy.rows.map((row) => (
                 <tr key={row.capability} className="transition-colors hover:bg-white/40 dark:hover:bg-white/5">
                   <th
                     scope="row"

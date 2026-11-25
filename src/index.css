@@ -3,9 +3,9 @@
 
 @layer base {
   :root {
-    --font-display: "Bricolage Grotesque", system-ui, -apple-system, sans-serif;
-    --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
-    --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+    --font-display: "Bricolage Grotesque", "Hind Siliguri", "Noto Sans Bengali", system-ui, -apple-system, sans-serif;
+    --font-sans: "Plus Jakarta Sans", "Hind Siliguri", "Noto Sans Bengali", system-ui, -apple-system, sans-serif;
+    --font-mono: "JetBrains Mono", "Hind Siliguri", ui-monospace, SFMono-Regular, monospace;
   }
 
   html {

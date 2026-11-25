@@ -1,13 +1,16 @@
 import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
-import { APK_RELEASE, NAV_ITEMS } from '../data/omniData';
+import type { ApkReleaseInfo, LocalizedContent, NavItem } from '../data/omniData';
 
 interface NavbarProps {
   activeSection: string;
+  navItems: NavItem[];
+  copy: LocalizedContent['navbar'];
+  release: ApkReleaseInfo;
   onNavigate: (sectionId: string) => void;
 }
 
-export function Navbar({ activeSection, onNavigate }: NavbarProps) {
+export function Navbar({ activeSection, navItems, copy, release, onNavigate }: NavbarProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
@@ -17,7 +20,7 @@ export function Navbar({ activeSection, onNavigate }: NavbarProps) {
   };
 
   return (
-    <header className="sticky top-0 z-40 border-b border-slate-200/70 bg-white/70 backdrop-blur-xl dark:border-white/10 dark:bg-[#0B1120]/70">
+    <header className="sticky top-0 z-40 border-b border-slate-200/70 bg-white/75 backdrop-blur-xl dark:border-white/10 dark:bg-[#0B1120]/70">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-8 px-4 sm:px-6 lg:px-8">
         {/* Zone 1: Single-line Brand Title + Logo Mark */}
         <a
@@ -51,8 +54,8 @@ export function Navbar({ activeSection, onNavigate }: NavbarProps) {
         </a>
 
         {/* Zone 2: Clean Single-Line Navigation Links */}
-        <nav aria-label="Primary navigation" className="hidden items-center gap-6 lg:flex">
-          {NAV_ITEMS.map((item) => {
+        <nav aria-label={copy.primaryNavAria} className="hidden items-center gap-6 lg:flex">
+          {navItems.map((item) => {
             const isActive = activeSection === item.id;
             return (
               <a
@@ -80,19 +83,19 @@ export function Navbar({ activeSection, onNavigate }: NavbarProps) {
         {/* Zone 3: Single Primary Action + Mobile Menu Trigger */}
         <div className="flex shrink-0 items-center gap-3">
           <a
-            href={APK_RELEASE.downloadUrl}
-            download={APK_RELEASE.filename}
+            href={release.downloadUrl}
+            download={release.filename}
             rel="noopener noreferrer"
             className="soft-gradient-cta hidden shrink-0 whitespace-nowrap rounded-lg px-4 py-2 text-sm font-semibold text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#06B6D4] sm:inline-flex"
           >
-            Download APK
+            {copy.downloadCta}
           </a>
 
           <button
             type="button"
             aria-expanded={mobileOpen}
             aria-controls="mobile-nav-drawer"
-            aria-label={mobileOpen ? 'Close navigation menu' : 'Open navigation menu'}
+            aria-label={mobileOpen ? copy.closeMenuAria : copy.openMenuAria}
             onClick={() => setMobileOpen((prev) => !prev)}
             className="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-slate-200 text-slate-700 transition-colors hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0288D1] lg:hidden dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800"
           >
@@ -107,8 +110,8 @@ export function Navbar({ activeSection, onNavigate }: NavbarProps) {
           id="mobile-nav-drawer"
           className="border-t border-slate-200 bg-[#F8FAFC] px-4 py-4 lg:hidden dark:border-slate-800 dark:bg-[#0F172A]"
         >
-          <nav aria-label="Mobile navigation" className="flex flex-col gap-1">
-            {NAV_ITEMS.map((item) => {
+          <nav aria-label={copy.mobileNavAria} className="flex flex-col gap-1">
+            {navItems.map((item) => {
               const isActive = activeSection === item.id;
               return (
                 <a
@@ -126,13 +129,13 @@ export function Navbar({ activeSection, onNavigate }: NavbarProps) {
               );
             })}
             <a
-              href={APK_RELEASE.downloadUrl}
-              download={APK_RELEASE.filename}
+              href={release.downloadUrl}
+              download={release.filename}
               rel="noopener noreferrer"
               onClick={() => setMobileOpen(false)}
               className="mt-2 inline-flex items-center justify-center rounded-lg bg-[#0288D1] px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#0277BD]"
             >
-              Download APK
+              {copy.downloadCta}
             </a>
           </nav>
         </div>
