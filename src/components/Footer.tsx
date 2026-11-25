@@ -1,5 +1,5 @@
 import { ArrowRight } from 'lucide-react';
-import { NAV_ITEMS } from '../data/omniData';
+import { APK_RELEASE, NAV_ITEMS } from '../data/omniData';
 
 interface FooterProps {
   onNavigate: (sectionId: string) => void;
@@ -29,11 +29,9 @@ export function Footer({ onNavigate }: FooterProps) {
             </p>
           </div>
           <a
-            href="#download"
-            onClick={(e) => {
-              e.preventDefault();
-              onNavigate('download');
-            }}
+            href={APK_RELEASE.downloadUrl}
+            download={APK_RELEASE.filename}
+            rel="noopener noreferrer"
             className="soft-gradient-cta inline-flex shrink-0 items-center gap-2 whitespace-nowrap rounded-xl px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-[#0288D1]/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#06B6D4]"
           >
             Download OmniDownloader

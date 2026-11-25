@@ -204,42 +204,20 @@ export const FAQ_ITEMS: FaqItem[] = [
   },
 ];
 
-export interface ApkReleaseVariant {
-  id: 'arm64' | 'universal' | 'armeabi';
-  label: string;
-  arch: string;
-  size: string;
-  recommended: boolean;
+export interface ApkReleaseInfo {
+  version: string;
   filename: string;
+  downloadUrl: string;
+  compatibility: string;
   notes: string;
 }
 
-export const APK_RELEASES: ApkReleaseVariant[] = [
-  {
-    id: 'arm64',
-    label: 'Modern Android Phones',
-    arch: 'Standard',
-    size: '48.6 MB',
-    recommended: true,
-    filename: 'OmniDownloader-v2.4.0-android.apk',
-    notes: 'Best choice for Android 9–15 phones (Pixel, Samsung Galaxy, OnePlus, Xiaomi).',
-  },
-  {
-    id: 'universal',
-    label: 'Universal Android Installer',
-    arch: 'All Devices',
-    size: '84.2 MB',
-    recommended: false,
-    filename: 'OmniDownloader-v2.4.0-universal.apk',
-    notes: 'Works across all Android phones, tablets, and Chromebooks when unsure which version to pick.',
-  },
-  {
-    id: 'armeabi',
-    label: 'Older 32-bit Phones',
-    arch: 'Legacy',
-    size: '44.1 MB',
-    recommended: false,
-    filename: 'OmniDownloader-v2.4.0-legacy.apk',
-    notes: 'Lightweight build made specifically for older Android 8 phones and tablets.',
-  },
-];
+export const APK_RELEASE: ApkReleaseInfo = {
+  version: 'v1.0',
+  filename: 'OmniDownloader_v1.0.apk',
+  downloadUrl:
+    'https://github.com/Rakib7337/Omni-app/releases/download/Release/OmniDownloader_v1.0.apk',
+  compatibility: 'Android 8.0 & newer',
+  notes:
+    'Single universal Android APK compatible with Pixel, Samsung Galaxy, OnePlus, Xiaomi, and other Android 8.0+ devices.',
+};

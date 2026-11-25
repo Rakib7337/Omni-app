@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
-import { NAV_ITEMS } from '../data/omniData';
+import { APK_RELEASE, NAV_ITEMS } from '../data/omniData';
 
 interface NavbarProps {
   activeSection: string;
@@ -80,8 +80,9 @@ export function Navbar({ activeSection, onNavigate }: NavbarProps) {
         {/* Zone 3: Single Primary Action + Mobile Menu Trigger */}
         <div className="flex shrink-0 items-center gap-3">
           <a
-            href="#download"
-            onClick={(e) => handleLinkClick(e, 'download')}
+            href={APK_RELEASE.downloadUrl}
+            download={APK_RELEASE.filename}
+            rel="noopener noreferrer"
             className="soft-gradient-cta hidden shrink-0 whitespace-nowrap rounded-lg px-4 py-2 text-sm font-semibold text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#06B6D4] sm:inline-flex"
           >
             Download APK
@@ -125,8 +126,10 @@ export function Navbar({ activeSection, onNavigate }: NavbarProps) {
               );
             })}
             <a
-              href="#download"
-              onClick={(e) => handleLinkClick(e, 'download')}
+              href={APK_RELEASE.downloadUrl}
+              download={APK_RELEASE.filename}
+              rel="noopener noreferrer"
+              onClick={() => setMobileOpen(false)}
               className="mt-2 inline-flex items-center justify-center rounded-lg bg-[#0288D1] px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#0277BD]"
             >
               Download APK

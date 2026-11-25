@@ -1,5 +1,5 @@
 import { ArrowRight, Moon, Sun } from 'lucide-react';
-import { TRUST_STATS } from '../data/omniData';
+import { APK_RELEASE, TRUST_STATS } from '../data/omniData';
 import { PhoneMockup } from './PhoneMockup';
 
 interface HeroSectionProps {
@@ -91,11 +91,9 @@ export function HeroSection({ theme, onToggleTheme, onNavigate }: HeroSectionPro
             {/* Primary & Secondary CTAs */}
             <div className="mt-7 flex flex-wrap items-center gap-4">
               <a
-                href="#download"
-                onClick={(e) => {
-                  e.preventDefault();
-                  onNavigate('download');
-                }}
+                href={APK_RELEASE.downloadUrl}
+                download={APK_RELEASE.filename}
+                rel="noopener noreferrer"
                 className="soft-gradient-cta inline-flex shrink-0 items-center gap-2 whitespace-nowrap rounded-xl px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-[#0288D1]/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#06B6D4]"
               >
                 Get OmniDownloader APK

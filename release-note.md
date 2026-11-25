@@ -1,4 +1,4 @@
-# OmniDownloader v2.4.0 Release Notes
+# OmniDownloader v1.0 Release Notes
 
 **Release Date:** November 24, 2026  
 **Platform:** Android 8.0 and newer  
@@ -8,7 +8,7 @@
 
 ## Overview
 
-OmniDownloader **v2.4.0** brings together one-tap video and playlist saving, ad-free video feeds, clean mobile browsing, and quick offline media editing inside a single Material Design 3 Android app—with no sign-up required.
+OmniDownloader **v1.0** brings together one-tap video and playlist saving, ad-free video feeds, clean mobile browsing, and quick offline media editing inside a single Material Design 3 Android app—with no sign-up required.
 
 ---
 
@@ -36,19 +36,18 @@ OmniDownloader **v2.4.0** brings together one-tap video and playlist saving, ad-
 
 ---
 
-## Available Android Downloads
+## Download Android APK
 
-| Variant | File Name | Size | Best For |
-| --- | --- | --- | --- |
-| **Standard (Recommended)** | `OmniDownloader-v2.4.0-android.apk` | `48.6 MB` | Modern Android 9–15 phones (Pixel, Samsung Galaxy, OnePlus, Xiaomi) |
-| **All Devices** | `OmniDownloader-v2.4.0-universal.apk` | `84.2 MB` | Universal installer across Android phones, tablets, and Chromebooks |
-| **Legacy** | `OmniDownloader-v2.4.0-legacy.apk` | `44.1 MB` | Older 32-bit devices running Android 8.0+ |
+- **File:** `OmniDownloader_v1.0.apk`
+- **Version:** `v1.0`
+- **Compatibility:** Android 8.0 & newer
+- **Download Link:** [Download OmniDownloader_v1.0.apk](https://github.com/Rakib7337/Omni-app/releases/download/Release/OmniDownloader_v1.0.apk)
 
 ---
 
 ## Quick Install Steps
 
-1. Download the recommended **Standard** (`48.6 MB`) APK or choose the build for your device.
+1. Tap the **Download OmniDownloader_v1.0.apk** link above.
 2. Open the downloaded `.apk` file from your Android notifications or Downloads folder.
 3. Confirm installation when prompted and start saving and watching ad-free right away.
 
