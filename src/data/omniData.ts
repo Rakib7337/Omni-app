@@ -31,6 +31,8 @@ export interface AppFeatureShowcase {
   highlights: string[];
 }
 
+const BASE_URL = import.meta.env.BASE_URL;
+
 export const FRONTEND_FEATURES: AppFeatureShowcase[] = [
   {
     id: 'saver',
@@ -40,7 +42,7 @@ export const FRONTEND_FEATURES: AppFeatureShowcase[] = [
     subtitle: 'Paste any video or audio URL in one tap',
     description:
       'Copy a link from YouTube, TikTok, Instagram, X, Reddit, or 1,000+ supported sites — or jump straight into your favorite platform from the quick-launch grid.',
-    imageSrc: '/assets/aistudio/Screenshot_20261125-093746_81ca962f.png',
+    imageSrc: `${BASE_URL}assets/aistudio/Screenshot_20261125-093746_81ca962f.png`,
     imageAlt: 'OmniDownloader Home screen showing link paste input and popular supported platforms',
     highlights: [
       'Smart clipboard paste button & quick Single mode',
@@ -56,7 +58,7 @@ export const FRONTEND_FEATURES: AppFeatureShowcase[] = [
     subtitle: 'Switch between Video + Audio or Audio Only before saving',
     description:
       'Preview clip length, captions, and chapters before saving. Choose full HD/4K video or export directly to MP3, M4A, OPUS, or FLAC at the exact bitrate you prefer.',
-    imageSrc: '/assets/aistudio/Screenshot_20261125-094305_d4891960.png',
+    imageSrc: `${BASE_URL}assets/aistudio/Screenshot_20261125-094305_d4891960.png`,
     imageAlt: 'OmniDownloader Download Format and Details screen showing Video, Audio Only, MP3, M4A, OPUS, and FLAC options',
     highlights: [
       'Instant Video + Audio or Audio Only switcher',
@@ -72,7 +74,7 @@ export const FRONTEND_FEATURES: AppFeatureShowcase[] = [
     subtitle: 'Browse For You, Music, Gaming & Tech cleanly',
     description:
       'Discover trending clips and channels across Music, Gaming, Tech, and For You tabs without pre-roll ads, sponsored cards, or sign-in clutter.',
-    imageSrc: '/assets/aistudio/Screenshot_20261125-093815_4d5f2d65.png',
+    imageSrc: `${BASE_URL}assets/aistudio/Screenshot_20261125-093815_4d5f2d65.png`,
     imageAlt: 'OmniDownloader Ad-Free YouTube Feeds screen showing For You, Music, Gaming, and Tech video feeds',
     highlights: [
       'Clean topic tabs for For You, Music, Gaming & Tech',
@@ -88,7 +90,7 @@ export const FRONTEND_FEATURES: AppFeatureShowcase[] = [
     subtitle: 'Play, trim, extract audio & manage downloads offline',
     description:
       'Keep every saved video and song organized in one fast library with storage tracking, duplicate checks, instant search, and one-tap play, edit, audio extract, and share tools.',
-    imageSrc: '/assets/aistudio/Screenshot_20261125-093912_2a27c156.png',
+    imageSrc: `${BASE_URL}assets/aistudio/Screenshot_20261125-093912_2a27c156.png`,
     imageAlt: 'OmniDownloader Offline Library screen showing saved media cards, storage usage, and quick actions',
     highlights: [
       'Storage summary bar with duplicate file detection',

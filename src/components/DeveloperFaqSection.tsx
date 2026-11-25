@@ -142,7 +142,7 @@ export function DeveloperFaqSection() {
 
               <div className="mt-6 overflow-hidden rounded-xl border border-slate-200/80 bg-slate-100 dark:border-white/10 dark:bg-slate-900">
                 <img
-                  src="/src/assets/images/dev_workspace_mark_1795528291778.jpg"
+                  src={`${import.meta.env.BASE_URL}src/assets/images/dev_workspace_mark_1795528291778.jpg`}
                   alt="Workspace desk of OmniDownloader creator Rakib Hasan"
                   referrerPolicy="no-referrer"
                   className="aspect-square max-h-60 w-full object-cover"

@@ -9,7 +9,7 @@ export function PhoneMockup() {
         <div className="rounded-[33.5px] bg-[#090D16] p-[5.5px] ring-1 ring-inset ring-white/15 sm:rounded-[37.5px]">
           <div className="relative aspect-[9/20] overflow-hidden rounded-[28px] bg-slate-100 sm:rounded-[31px] dark:bg-slate-900">
             <img
-              src="/assets/aistudio/Screenshot_20261125-093815_4d5f2d65.png"
+              src={`${import.meta.env.BASE_URL}assets/aistudio/Screenshot_20261125-093815_4d5f2d65.png`}
               alt=""
               referrerPolicy="no-referrer"
               className="h-full w-full object-cover object-top"
@@ -44,7 +44,7 @@ export function PhoneMockup() {
             {/* Edge-to-Edge Real App Screenshot Display */}
             <div className="relative aspect-[9/20] overflow-hidden rounded-[31px] bg-slate-100 sm:rounded-[34px] dark:bg-slate-900">
               <img
-                src="/assets/aistudio/Screenshot_20261125-093746_81ca962f.png"
+                src={`${import.meta.env.BASE_URL}assets/aistudio/Screenshot_20261125-093746_81ca962f.png`}
                 alt="OmniDownloader Android app home screen with link paste card and supported platforms"
                 referrerPolicy="no-referrer"
                 className="h-full w-full object-cover object-top"
