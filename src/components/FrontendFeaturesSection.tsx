@@ -1,5 +1,25 @@
 import { useState } from 'react';
-import { Check, Smartphone } from 'lucide-react';
+import {
+  ArrowLeftRight,
+  ClipboardPaste,
+  Compass,
+  FolderOpen,
+  Gauge,
+  Globe,
+  HardDrive,
+  LayoutGrid,
+  Link2,
+  ListFilter,
+  Music,
+  Scissors,
+  Search,
+  ShieldCheck,
+  SlidersHorizontal,
+  Smartphone,
+  Tv,
+  Zap,
+  type LucideIcon,
+} from 'lucide-react';
 import type { AppFeatureShowcase, LocalizedContent } from '../data/omniData';
 
 type FilterTab = 'all' | AppFeatureShowcase['id'];
@@ -7,6 +27,31 @@ type FilterTab = 'all' | AppFeatureShowcase['id'];
 interface FrontendFeaturesSectionProps {
   copy: LocalizedContent['featuresSection'];
 }
+
+const FEATURE_META_ICONS: Record<
+  AppFeatureShowcase['id'],
+  {
+    headerIcon: LucideIcon;
+    highlightIcons: [LucideIcon, LucideIcon, LucideIcon];
+  }
+> = {
+  saver: {
+    headerIcon: Link2,
+    highlightIcons: [ClipboardPaste, Zap, Globe],
+  },
+  formats: {
+    headerIcon: SlidersHorizontal,
+    highlightIcons: [ArrowLeftRight, Music, Gauge],
+  },
+  feeds: {
+    headerIcon: Tv,
+    highlightIcons: [Compass, ShieldCheck, Search],
+  },
+  library: {
+    headerIcon: FolderOpen,
+    highlightIcons: [HardDrive, ListFilter, Scissors],
+  },
+};
 
 function ScreenshotPhoneFrame({
   imageSrc,
@@ -114,16 +159,18 @@ export function FrontendFeaturesSection({ copy }: FrontendFeaturesSectionProps) 
               role="tab"
               aria-selected={activeTab === 'all'}
               onClick={() => setActiveTab('all')}
-              className={`shrink-0 whitespace-nowrap rounded-lg px-3 py-1.5 text-xs font-semibold transition-colors duration-150 ${
+              className={`inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-lg px-3 py-1.5 text-xs font-semibold transition-colors duration-150 ${
                 activeTab === 'all'
                   ? 'soft-gradient-cta text-white'
                   : 'text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white'
               }`}
             >
-              {copy.allScreensLabel}
+              <LayoutGrid className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+              <span>{copy.allScreensLabel}</span>
             </button>
             {copy.items.map((item) => {
               const selected = activeTab === item.id;
+              const TabIcon = FEATURE_META_ICONS[item.id].headerIcon;
               return (
                 <button
                   key={item.id}
@@ -131,13 +178,14 @@ export function FrontendFeaturesSection({ copy }: FrontendFeaturesSectionProps) 
                   role="tab"
                   aria-selected={selected}
                   onClick={() => setActiveTab(item.id)}
-                  className={`shrink-0 whitespace-nowrap rounded-lg px-3 py-1.5 text-xs font-semibold transition-colors duration-150 ${
+                  className={`inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-lg px-3 py-1.5 text-xs font-semibold transition-colors duration-150 ${
                     selected
                       ? 'soft-gradient-cta text-white'
                       : 'text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white'
                   }`}
                 >
-                  {item.tabLabel}
+                  <TabIcon className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+                  <span>{item.tabLabel}</span>
                 </button>
               );
             })}
@@ -150,51 +198,65 @@ export function FrontendFeaturesSection({ copy }: FrontendFeaturesSectionProps) 
             visibleFeatures.length === 1 ? 'mx-auto max-w-3xl grid-cols-1' : 'lg:grid-cols-2'
           }`}
         >
-          {visibleFeatures.map((feature, idx) => (
-            <article
-              key={feature.id}
-              data-aos="fade-up"
-              data-aos-delay={idx * 80}
-              className="glass-surface grid items-center gap-8 rounded-3xl border p-6 sm:grid-cols-12 sm:p-8"
-            >
-              <div className="flex min-w-0 flex-col justify-between sm:col-span-6">
-                <div>
-                  <span className="font-mono text-sm font-semibold text-[#0288D1] dark:text-[#06B6D4]">
-                    {feature.index}
-                  </span>
-                  <h3 className="mt-2 font-display text-xl font-bold tracking-tight text-[#0F172A] sm:text-2xl dark:text-white">
-                    {feature.title}
-                  </h3>
-                  <p className="mt-1 text-xs font-semibold text-slate-500 dark:text-slate-400">
-                    {feature.subtitle}
-                  </p>
-                  <p className="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
-                    {feature.description}
-                  </p>
+          {visibleFeatures.map((feature, idx) => {
+            const { headerIcon: FeatureHeaderIcon, highlightIcons } =
+              FEATURE_META_ICONS[feature.id];
+            return (
+              <article
+                key={feature.id}
+                data-aos="fade-up"
+                data-aos-delay={idx * 80}
+                className="glass-surface grid items-center gap-8 rounded-3xl border p-6 sm:grid-cols-12 sm:p-8"
+              >
+                <div className="flex min-w-0 flex-col justify-between sm:col-span-6">
+                  <div>
+                    <div className="flex items-center gap-3">
+                      <span className="glass-card-subtle inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border text-[#0288D1] dark:text-[#06B6D4]">
+                        <FeatureHeaderIcon className="h-5 w-5" aria-hidden="true" />
+                      </span>
+                      <span className="font-mono text-sm font-semibold text-[#0288D1] dark:text-[#06B6D4]">
+                        {feature.index}
+                      </span>
+                    </div>
+                    <h3 className="mt-3 font-display text-xl font-bold tracking-tight text-[#0F172A] sm:text-2xl dark:text-white">
+                      {feature.title}
+                    </h3>
+                    <p className="mt-1 text-xs font-semibold text-slate-500 dark:text-slate-400">
+                      {feature.subtitle}
+                    </p>
+                    <p className="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+                      {feature.description}
+                    </p>
+                  </div>
+
+                  <ul className="mt-5 space-y-2.5 border-t border-slate-200/70 pt-4 dark:border-white/10">
+                    {feature.highlights.map((highlight, highlightIdx) => {
+                      const HighlightIcon = highlightIcons[highlightIdx] ?? Link2;
+                      return (
+                        <li
+                          key={highlight}
+                          className="flex items-start gap-2.5 text-xs font-medium text-slate-700 dark:text-slate-200"
+                        >
+                          <span className="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-[#0288D1]/10 text-[#0288D1] dark:bg-[#06B6D4]/15 dark:text-[#06B6D4]">
+                            <HighlightIcon className="h-3.5 w-3.5" aria-hidden="true" />
+                          </span>
+                          <span className="leading-relaxed">{highlight}</span>
+                        </li>
+                      );
+                    })}
+                  </ul>
                 </div>
 
-                <ul className="mt-5 space-y-2 border-t border-slate-200/70 pt-4 dark:border-white/10">
-                  {feature.highlights.map((highlight) => (
-                    <li
-                      key={highlight}
-                      className="flex items-start gap-2 text-xs font-medium text-slate-700 dark:text-slate-200"
-                    >
-                      <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#0288D1] dark:text-[#06B6D4]" />
-                      <span>{highlight}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="flex items-center justify-center sm:col-span-6">
-                <ScreenshotPhoneFrame
-                  imageSrc={feature.imageSrc}
-                  imageAlt={feature.imageAlt}
-                  title={feature.title}
-                />
-              </div>
-            </article>
-          ))}
+                <div className="flex items-center justify-center sm:col-span-6">
+                  <ScreenshotPhoneFrame
+                    imageSrc={feature.imageSrc}
+                    imageAlt={feature.imageAlt}
+                    title={feature.title}
+                  />
+                </div>
+              </article>
+            );
+          })}
         </div>
       </div>
     </section>

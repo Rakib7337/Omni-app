@@ -142,7 +142,7 @@ export function HeroSection({
                 href={release.downloadUrl}
                 download={release.filename}
                 rel="noopener noreferrer"
-                className="soft-gradient-cta inline-flex shrink-0 items-center gap-2 whitespace-nowrap rounded-xl px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-[#0288D1]/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#06B6D4]"
+                className="download-gradient-cta inline-flex shrink-0 items-center gap-2 whitespace-nowrap rounded-xl px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-emerald-700/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#059669]"
               >
                 {copy.primaryCta}
                 <ArrowRight className="h-4 w-4" />

@@ -36,9 +36,9 @@ export function Navbar({ activeSection, navItems, copy, release, onNavigate }: N
           >
             <defs>
               <linearGradient id="omni-logo-grad" x1="0" y1="0" x2="28" y2="28" gradientUnits="userSpaceOnUse">
-                <stop offset="0%" stopColor="#0288D1" />
-                <stop offset="55%" stopColor="#06B6D4" />
-                <stop offset="100%" stopColor="#6366F1" />
+                <stop offset="0%" stopColor="#047857" />
+                <stop offset="52%" stopColor="#059669" />
+                <stop offset="100%" stopColor="#0D9488" />
               </linearGradient>
             </defs>
             <rect width="28" height="28" rx="7" fill="url(#omni-logo-grad)" />
@@ -86,7 +86,7 @@ export function Navbar({ activeSection, navItems, copy, release, onNavigate }: N
             href={release.downloadUrl}
             download={release.filename}
             rel="noopener noreferrer"
-            className="soft-gradient-cta hidden shrink-0 whitespace-nowrap rounded-lg px-4 py-2 text-sm font-semibold text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#06B6D4] sm:inline-flex"
+            className="download-gradient-cta hidden shrink-0 whitespace-nowrap rounded-lg px-4 py-2 text-sm font-semibold text-white shadow-sm shadow-emerald-700/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#059669] sm:inline-flex"
           >
             {copy.downloadCta}
           </a>
@@ -133,7 +133,7 @@ export function Navbar({ activeSection, navItems, copy, release, onNavigate }: N
               download={release.filename}
               rel="noopener noreferrer"
               onClick={() => setMobileOpen(false)}
-              className="mt-2 inline-flex items-center justify-center rounded-lg bg-[#0288D1] px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#0277BD]"
+              className="download-gradient-cta mt-2 inline-flex items-center justify-center rounded-lg px-4 py-2.5 text-sm font-semibold text-white"
             >
               {copy.downloadCta}
             </a>
