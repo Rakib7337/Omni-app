@@ -1,0 +1,8 @@
+{
+  "name": "OmniDownloader",
+  "description": "All-in-one Android media downloader, Chromium V8 sniffer browser, ad-free YouTube client, and FFmpeg media studio built with Jetpack Compose & Material Design 3.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

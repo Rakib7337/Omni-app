@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en" class="dark scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OmniDownloader — Ad-Free Android Video Downloader, Feeds &amp; Media App</title>
+    <meta
+      name="description"
+      content="Save 4K videos, MP3 music, and playlists from 1,000+ sites, watch videos ad-free, browse without pop-ups, and trim or convert clips right on your Android phone."
+    />
+    <meta property="og:title" content="OmniDownloader — Ad-Free Android Video Downloader, Feeds & Media App" />
+    <meta
+      property="og:description"
+      content="All-in-one Android app for saving 4K videos and MP3s, watching ad-free feeds, clean mobile browsing, and quick audio or video editing."
+    />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      (function () {
+        try {
+          var saved = localStorage.getItem('omni-theme');
+          if (saved === 'light') {
+            document.documentElement.classList.remove('dark');
+          } else {
+            document.documentElement.classList.add('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body class="bg-[#F8FAFC] text-[#0F172A] dark:bg-[#0F172A] dark:text-[#F8FAFC] antialiased selection:bg-[#0288D1]/20 selection:text-[#0288D1]">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
